@@ -23,7 +23,7 @@ sudo mkdir -p $FRONTEND_DIR
 sudo cp -r /opt/orbyanduche/dist/* $FRONTEND_DIR
 
 # Set up Nginx
-sudo cp /opt/orbyanduche/orbyanduche.conf /etc/nginx/sites-available/$DOMAIN
+sudo cp /opt/orbyanduche/orbyanduche_nginx.conf /etc/nginx/sites-available/$DOMAIN
 sudo ln -s /etc/nginx/sites-available/$DOMAIN /etc/nginx/sites-enabled/
 
 # Restart Nginx
