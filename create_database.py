@@ -14,7 +14,7 @@ class Guest(Base):
     approved = Column(Boolean, default=False)
 
 def initialize_db():
-    engine = create_engine('sqlite:///database.db')
+    engine = create_engine('sqlite:///instance/database.db')
     Base.metadata.create_all(engine)
     print("Database and table created successfully")
 
