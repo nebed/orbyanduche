@@ -42,6 +42,10 @@
 .swatch .color {
   flex: 1;
 }
+
+.indent-paragraph {
+  text-indent: 20px; /* Adjust the value as needed */
+}
 /* #app {
   max-width: 1280px;
   margin: 0 auto;
