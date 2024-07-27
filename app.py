@@ -94,7 +94,7 @@ def approve_rsvp(id):
     rsvp = RSVP.query.get(id)
     if not rsvp:
         return jsonify({"error": "RSVP not found"}), 404
-    if rsvp.approve:
+    if rsvp.approved:
         return jsonify({"message": "RSVP has been approved already"}), 409
     
     tickets = generate_qr_codes_from_rsvp(rsvp, 'logo.jpg')
