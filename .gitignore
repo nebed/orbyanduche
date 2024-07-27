@@ -1,0 +1,146 @@
+# Python
+*.pyc
+*.pyo
+*.pyd
+__pycache__/
+*.swp
+*~.nib
+
+# Virtual Environment
+venv/
+env/
+ENV/
+.venv/
+.ENV/
+
+# Flask
+instance/
+*.py[cod]
+*.so
+*.log
+*.pot
+*.mo
+*.py[cod]
+*.pyo
+*.pyd
+__pycache__/
+env/
+venv/
+ENV/
+instance/
+.webassets-cache
+
+# Node and Vue.js
+node_modules/
+dist/
+*.log
+*.cache
+*.env.local
+*.env.development.local
+*.env.test.local
+*.env.production.local
+*.env
+
+# Dependency directories
+jspm_packages/
+
+# dotenv environment variables file
+.env
+
+# System Files
+.DS_Store
+Thumbs.db
+
+# IDEs and editors
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# macOS
+*.DS_Store
+.AppleDouble
+.LSOverride
+
+# Windows
+Thumbs.db
+ehthumbs.db
+
+# Linux
+*~
+
+# Python specific
+*.py[cod]
+*$py.class
+.Python
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# Flask
+instance/
+.webassets-cache
+scrapy-splash
+selenium-screenshot.png
+
+# VS Code settings
+.vscode/
+
+# Coverage reports
+htmlcov/
+.tox/
+.nox/
+.coverage
+coverage.xml
+*.cover
+*.py,cover
+.hypothesis/
+
+# Translations
+*.mo
+*.pot
+
+# Flask instance folder
+instance/
+
+# pytest
+.cache
+.pytest_cache/
+
+# Pyre type checker
+.pyre/
+
+# SQLAlchemy
+*.db
+*.sqlite
+*.sqlite3
+
+# Logs
+*.log
+
+# Vue.js
+node_modules/
+dist/
+*.local
+*.env.local
+*.env.*.local
+# Editor directories and files
+.idea
+.vscode
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Test coverage and reports
+coverage/
+.coverage
+coverage.xml
+*.cover
+.hypothesis/
+
+# celery beat schedule file
+celerybeat-schedule

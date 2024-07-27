@@ -1,0 +1,77 @@
+.lucian-text {
+  font-family: 'lucian', serif;
+  font-style: italic;
+}
+
+.blacksword-text {
+  font-family: 'blacksword';
+}
+
+.overlap-text {
+  position: relative;
+  transform: translateY(-50%);
+}
+
+.argesta-text {
+  font-family: 'argesta';
+}
+
+@font-face {
+  font-family: 'lucian';
+  src: url(fonts/lucian_schoenschrift.ttf);
+}
+
+@font-face {
+  font-family: 'blacksword';
+  src: url(fonts/blacksword.otf);
+}
+
+@font-face {
+  font-family: 'argesta';
+  src: url(fonts/argestadisplay-regular-webfont.ttf);
+}
+
+.swatch {
+  width: 100%;
+  height: 50px;
+  display: flex;
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.swatch .color {
+  flex: 1;
+}
+/* #app {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  font-weight: normal;
+}
+
+a,
+.green {
+  text-decoration: none;
+  color: hsla(160, 100%, 37%, 1);
+  transition: 0.4s;
+  padding: 3px;
+}
+
+@media (hover: hover) {
+  a:hover {
+    background-color: hsla(160, 100%, 37%, 0.2);
+  }
+}
+
+@media (min-width: 1024px) {
+  body {
+    display: flex;
+    place-items: center;
+  }
+
+  #app {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    padding: 0 2rem;
+  }
+} */
