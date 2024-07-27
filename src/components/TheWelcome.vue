@@ -74,7 +74,7 @@ import LocationIcon from './icons/IconLocation.vue'
       <p class="argesta-text p-2">Visit our gallery to see all the beautiful moments and memories.</p>
       <div class="argesta-text row justify-content-center">
         <div class="col-8 d-grid mx-auto gap-2">
-          <a href="/gallery" class="btn btn-danger">
+          <a href="/gallery" class="btn btn-outline-danger">
             View
           </a>
         </div>
