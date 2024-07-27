@@ -32,7 +32,6 @@ instance/
 
 # Node and Vue.js
 node_modules/
-dist/
 *.log
 *.cache
 *.env.local
