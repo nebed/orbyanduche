@@ -8,21 +8,22 @@ DOCKER_CONTAINER_NAME=orbyanduche
 
 # Update and install necessary packages
 sudo apt update
-sudo apt install -y docker.io docker-compose nginx
+sudo apt install -y docker.io docker-compose
 
 # Build the Docker image for the Flask backend
-cd /path/to/your/flask/app
+cd /opt/orbyanduche
 sudo docker build -t $DOCKER_IMAGE_NAME .
 
 # Run the Docker container
-sudo docker run -d --name $DOCKER_CONTAINER_NAME -p 5000:5000 $DOCKER_IMAGE_NAME
+sudo mkdir -p /opt/qrcodes
+sudo docker run -d --name $DOCKER_CONTAINER_NAME -p 5000:5000 -v /opt/qrcodes:/app/qrcodes $DOCKER_IMAGE_NAME
 
 # Set up the Vue.js frontend
 sudo mkdir -p $FRONTEND_DIR
-sudo cp -r /path/to/your/vue/dist/* $FRONTEND_DIR
+sudo cp -r /opt/orbyanduche/dist/* $FRONTEND_DIR
 
 # Set up Nginx
-sudo cp /path/to/orbyanduche.conf /etc/nginx/sites-available/$DOMAIN
+sudo cp /opt/orbyanduche/orbyanduche.conf /etc/nginx/sites-available/$DOMAIN
 sudo ln -s /etc/nginx/sites-available/$DOMAIN /etc/nginx/sites-enabled/
 
 # Restart Nginx

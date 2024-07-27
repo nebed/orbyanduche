@@ -122,7 +122,6 @@ instance/
 
 # Vue.js
 node_modules/
-dist/
 *.local
 *.env.local
 *.env.*.local
