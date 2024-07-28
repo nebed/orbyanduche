@@ -132,6 +132,7 @@ node_modules/
 *.njsproj
 *.sln
 *.sw?
+dist/
 
 # Test coverage and reports
 coverage/
