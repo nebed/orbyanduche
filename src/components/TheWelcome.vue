@@ -71,7 +71,7 @@ import LocationIcon from './icons/IconLocation.vue'
     <div class="col-6">
       <p class="blacksword-text display-6 pt-2 mb-1">Gallery</p>
       <img src="@/assets/images/uche_personal.jpg" class="img-fluid rounded-4 p-2" alt="A picture of Uche alone in a suit" width="200" height="500" loading="lazy">
-      <p class="argesta-text p-2">Visit our gallery to see all the beautiful moments and memories.</p>
+      <p class="argesta-text p-2">Explore our gallery to see moments and cherished memories</p>
       <div class="argesta-text row justify-content-center">
         <div class="col-8 d-grid mx-auto gap-2">
           <a href="/gallery" class="btn btn-outline-danger">

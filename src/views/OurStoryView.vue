@@ -1,5 +1,5 @@
 <template>
-    <div class="container mt-5">
+    <div class="container">
       <h1 class="text-center mb-4 blacksword-text display-4">Our Love Story: From Hostel Buddies to Soulmates</h1>
       <div class="row argesta-text mb-4">
         <div class="col-md-6">
