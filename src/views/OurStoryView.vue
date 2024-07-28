@@ -3,9 +3,11 @@
       <h1 class="text-center mb-4 blacksword-text display-4">Our Love Story: From Hostel Buddies to Soulmates</h1>
       <div class="row argesta-text mb-4">
         <div class="col-md-6">
-          <div class="card mb-3 p-3">
-            <div class="card-body">
-              <h5 class="card-title mb-4 text-start fw-bold">From the Groom's Perspective</h5>
+          <div class="card mb-3">
+            <div class="card-header p-4 bg-danger text-white">
+              <h5 class="card-title text-start fw-bold">From the Groom's Perspective</h5>
+            </div>
+            <div class="card-body p-4">
               <p class="indent-paragraph">
                 It was 2015, I had just moved to a shared hostel a bit far from school. My friend had a friend who was roommates with the lovely lady who would soon steal my heart. I met her for the first time when I accompanied my friend to her room.
               </p>
@@ -19,9 +21,11 @@
           </div>
         </div>
         <div class="col-md-6">
-          <div class="card mb-3 p-3">
-            <div class="card-body">
-              <h5 class="card-title mb-4 text-start fw-bold">From the Bride's Perspective</h5>
+          <div class="card mb-3">
+            <div class="card-header p-4 bg-danger text-white">
+              <h5 class="card-title text-start fw-bold">From the Bride's Perspective</h5>
+            </div>
+            <div class="card-body p-4">
             </div>
           </div>
         </div>
