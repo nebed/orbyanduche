@@ -27,13 +27,13 @@
             </div>
             <div class="card-body p-4">
               <p class="indent-paragraph">
-                It was in 2014 that I first met my husband. During the opening of a new hostel, Uchenna came along with friend of his, looking for someone named Stephanie, who they assumed was my roommate. Uchenna had a calm confidence about him that I found appealing, and we soon became acquaintances.
+                It was in 2014 that I first met my husband. During the opening of a new hostel, Uchenna came along with a friend of his, looking for someone named Stephanie, who they assumed was my roommate. Uchenna had a calm confidence about him that I found appealing, and we soon became acquaintances.
               </p>
               <p class="indent-paragraph">
                 Fast forward to 2015, Uchenna moved into the hostel as well. Spending more time together allowed us to grow closer. I enjoyed learning from his perspective, even if he did tease me for being gullible. We shared many laughs, movies, and music. Eventually, he moved out due to the hostel's inconvenient location. Despite the distance, we maintained our friendship. We even had a good laugh when he spoke to my mom one time. We often joked about being life partners.
               </p>
               <p class="indent-paragraph">
-                In 2021, I relocated to Lagos for my internship. It was then that Uchenna’s feelings for me became clear. He planned the perfect date, complete with makeup, a nice outfit, and a lovely restaurant, to ask me to be his girlfriend. His thoughtfulness and sincerity made me feel truly cared for. Lagos became my home, filled with happiness, all because of him.
+                In 2021, I relocated to Lagos for my internship. It was then that Uchenna’s feelings for me became clear. He planned the perfect first date, complete with makeup, a nice outfit, and a lovely restaurant, to ask me to be his girlfriend. His thoughtfulness and intentionality made me feel truly cared for. Lagos became my home, filled with happiness, all because of him.
               </p>
               <p class="indent-paragraph">
                 Now, we're excited to celebrate our love with you as we exchange vows and begin our married life.
