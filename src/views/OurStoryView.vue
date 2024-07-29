@@ -33,7 +33,7 @@
                 Fast forward to 2015, Uchenna moved into the hostel as well. Spending more time together allowed us to grow closer. I enjoyed learning from his perspective, even if he did tease me for being gullible. We shared many laughs, movies, and music. Eventually, he moved out due to the hostel's inconvenient location. Despite the distance, we maintained our friendship. We even had a good laugh when he spoke to my mom one time. We often joked about being life partners.
               </p>
               <p class="indent-paragraph">
-                In 2021, I relocated to Lagos for an internship. It was then that Uchenna’s feelings for me became clear. He planned the perfect date, complete with makeup, a nice outfit, and a lovely restaurant, to ask me to be his girlfriend. His thoughtfulness and sincerity made me feel truly cared for. Lagos became my home, filled with happiness, all because of him.
+                In 2021, I relocated to Lagos for my internship. It was then that Uchenna’s feelings for me became clear. He planned the perfect date, complete with makeup, a nice outfit, and a lovely restaurant, to ask me to be his girlfriend. His thoughtfulness and sincerity made me feel truly cared for. Lagos became my home, filled with happiness, all because of him.
               </p>
               <p class="indent-paragraph">
                 Now, we're excited to celebrate our love with you as we exchange vows and begin our married life.
