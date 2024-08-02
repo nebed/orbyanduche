@@ -56,17 +56,13 @@
   
         <div class="col-12">
           <label for="phonenumber" class="form-label">Phone Number <span class="text-muted">(Whatsapp enabled)</span></label>
-          <input
-            type="text"
-            :class="{'is-invalid': errors.phoneNumber, 'is-valid': !errors.phoneNumber && form.phoneNumber}"
-            class="form-control"
-            id="phonenumber"
-            v-model="form.phoneNumber"
-            @input="validateField('phoneNumber')"
-            required
-          >
-          <div class="invalid-feedback" v-if="errors.phoneNumber">
-            {{ errors.phoneNumber }}
+          <vue-tel-input
+            v-model="phone.value"
+            @on-input="onPhoneInput"
+            v-bind="phone.options"
+          ></vue-tel-input>
+          <div class="invalid-feedback" v-if="!phone.inputValue.valid">
+            Please enter a valid phone number
           </div>
         </div>
   
@@ -76,9 +72,9 @@
             class="form-select"
             id="additional-guests"
             v-model="form.additionalGuests"
-            @input="validateField('additionalGuests')"
+            @change="validateField('additionalGuests')"
           >
-            <option  type="number" value=0 selected>No additional guests</option>
+            <option  type="number" value=0>No additional guests</option>
             <option  type="number" value=1>1</option>
             <option  type="number" value=2>2</option>
             <option  type="number" value=3>3</option>
@@ -98,8 +94,8 @@
 
 <script setup>
   import { reactive, computed, ref } from 'vue';
-  
-  // Define reactive state
+
+    // Define reactive state
   const form = reactive({
     firstName: '',
     lastName: '',
@@ -107,6 +103,36 @@
     phoneNumber: '',
     additionalGuests: 0
   });
+
+  const phone = reactive({
+    value: "",
+    isBlurred: false,
+    inputValue: {
+      formatted: "",
+      valid: false,
+      country: undefined,
+    },
+    options: {
+      autoFormat: true,
+      styleClasses: computed(() => {
+        return {
+          'is-invalid': !phone.inputValue.valid && phone.value != ''
+        };
+      }),
+      inputOptions: {
+        showDialCodeInList: true,
+        id: 'phonenumber', 
+        required: true,
+        styleClasses: computed(() => {
+        return {
+          'form-control is-invalid': !phone.inputValue.valid && phone.value != '',
+          'form-control is-valid': phone.inputValue.valid && !phone.value != ''
+        };
+      })
+      },
+      validCharactersOnly: true,
+    },
+  })
   
   const errors = reactive({});
 
@@ -122,6 +148,10 @@
   const api_host = import.meta.env.VITE_API_HOST;
   const auth = 'Basic ' + btoa(username + ':' + password);
 
+  function onPhoneInput(formattedNumber, input) {
+    phone.inputValue = input;
+  };
+
   function showAlert(title, message, type) {
     alert.title = title;
     alert.message = message;
@@ -133,12 +163,6 @@
   function validateEmail(email) {
     const re = /^(([^<>()\[\]\.,;:\s@"]+(\.[^<>()\[\]\.,;:\s@"]+)*)|(".+"))@(([^<>()[\]\.,;:\s@"]+\.[^<>()[\]\.,;:\s@"]{2,}))$/i;
     return re.test(String(email).toLowerCase());
-  }
-  
-  // Function to validate phone number (must be exactly 11 digits)
-  function validatePhoneNumber(phoneNumber) {
-    const re = /^\d{11}$/;
-    return re.test(phoneNumber);
   }
   
   // Function to validate additional guests (must be between 0 and 5)
@@ -159,9 +183,6 @@
       case 'email':
         errors.email = form.email && validateEmail(form.email) ? '' : 'Please enter a valid email address.';
         break;
-      case 'phoneNumber':
-        errors.phoneNumber = validatePhoneNumber(form.phoneNumber) ? '' : 'Phone number must be exactly 11 digits.';
-        break;
       case 'additionalGuests':
         errors.additionalGuests = validateAdditionalGuests(form.additionalGuests) ? '' : 'Please select a valid number of guests (0-5).';
         break;
@@ -169,25 +190,25 @@
   }
 
   // Computed property to check if the form is valid
-  const isValid = computed(() => {
+  const isValid = () => {
     validateField('firstName');
     validateField('lastName');
     validateField('email');
-    validateField('phoneNumber');
     validateField('additionalGuests');
-    return !errors.firstName && !errors.lastName && !errors.email && !errors.phoneNumber && !errors.additionalGuests;
-  });
+    return !errors.firstName && !errors.lastName && !errors.email && !errors.additionalGuests && phone.inputValue.valid;
+  }
   
   // Form validation handler
   function validateForm() {
-    if (isValid.value) {
+    if (isValid()) {
       submitForm();
     }
   }
   
     async function submitForm() {
-        if (isValid.value) {
+        if (isValid()) {
             try {
+                form.phoneNumber = phone.inputValue.number
                 const response = await fetch(api_host + '/api/rsvp', {
                 method: 'POST',
                 headers: {

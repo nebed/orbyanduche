@@ -5,6 +5,10 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_httpauth import HTTPBasicAuth
 from werkzeug.security import generate_password_hash, check_password_hash
 from dotenv import load_dotenv
+from google.cloud import storage
+from datetime import timedelta
+from twilio.rest import Client
+from json import dumps
 import random, string, qrcode, requests
 from fpdf import FPDF
 from PIL import Image
@@ -38,10 +42,31 @@ mailgun_api_key = os.getenv('MAILGUN_API_KEY')
 if not mailgun_api_key:
     raise ValueError("No MAILGUN_API_KEY set for Flask application")
 
+twilio_account_sid = os.getenv('TWILIO_ACCOUNT_SID')
+if not twilio_account_sid:
+    raise ValueError("No TWILIO_ACCOUNT_SID set for Flask application")
+
+twilio_auth_token = os.getenv('TWILIO_AUTH_TOKEN')
+if not twilio_auth_token:
+    raise ValueError("No TWILIO_AUTH_TOKEN set for Flask application")
+
+twilio_sender_number = os.getenv('TWILIO_SENDER_NUMBER')
+
+twilio_nomedia_content_sid = os.getenv('TWILIO_NOMEDIA_CONTENT_SID')
+twilio_media_content_sid = os.getenv('TWILIO_MEDIA_CONTENT_SID')
+twilio_messaging_service_sid = os.getenv('TWILIO_MESSAGING_SERVICE_SID')
+
+gcs_bucket_name = "orbyanducheprivate"
+
+os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "personal-projects-384213-dd7304a43459.json"
+
 # In-memory user storage for authentication
 users = {
     username: generate_password_hash(admin_password)
 }
+
+calendar_link = "https://calendar.app.google/GBiUC4xTUHmY8pqt5"
+bucket_name = 'orbyanducheprivate'
 
 @auth.verify_password
 def verify_password(username, password):
@@ -99,6 +124,10 @@ def approve_rsvp(id):
     
     tickets = generate_qr_codes_from_rsvp(rsvp, 'logo.jpg')
     send_email_invitation(rsvp.first_name, rsvp.email, tickets)
+
+    media_urls = upload_file_to_gcs(gcs_bucket_name, tickets)
+    send_whatsapp_messages(rsvp.first_name, rsvp.phone_number, media_urls)
+
     rsvp.approved = True
     db.session.commit()
     return jsonify({"message": "RSVP approved successfully"})
@@ -133,8 +162,8 @@ def create_rsvp():
         return jsonify({"message": "Invalid email format."}), 400
 
     # Validate phone number (should be exactly 11 digits)
-    if not phone_number.isdigit() or len(phone_number) != 11:
-        return jsonify({"message": "Phone number must be exactly 11 digits."}), 400
+    if not phone_number.lstrip('+').isdigit():
+        return jsonify({"message": "Phone number must be digits."}), 400
 
     # Check if an RSVP with the same email and phone number already exists
     existing_rsvp = RSVP.query.filter_by(email=email, phone_number=phone_number).first()
@@ -262,8 +291,68 @@ def send_email_invitation(first_name, email, pdf_paths):
               "to": f"{first_name} <{email}>",
               "subject": "Your Invitation: Orby & Uche, 14th Dec",
               "template": "wedding invitation",
-              "h:X-Mailgun-Variables": f'{{"first_name": "{first_name}"}}'}
+              "h:X-Mailgun-Variables": f'{{"first_name": "{first_name}", "invite_link": "{calendar_link}"}}'}
     )
+
+def upload_file_to_gcs(bucket_name, pdf_files):
+
+    gcs_urls = []
+    # Initialize a client
+    storage_client = storage.Client()
+
+    # Get the bucket
+    bucket = storage_client.bucket(bucket_name)
+
+    for ticket in pdf_files:
+        # Create a blob object
+        blob = bucket.blob(ticket)
+
+        # Upload the file
+        blob.upload_from_filename(ticket)
+
+        # Generate a signed URL for the blob
+        url = blob.generate_signed_url(
+            version="v4",
+            expiration=timedelta(days=2),  # URL expires in 2 years
+            method="GET"
+        )
+        gcs_urls.append(url)
+
+    return gcs_urls
+
+def send_whatsapp_messages(first_name, phone_number, media_urls):
+    base_url = "https://storage.googleapis.com/orbyanducheprivate/"
+    client = Client(twilio_account_sid, twilio_auth_token)
+
+    try:
+        # Send the initial message with the guest's first name
+        client.messages.create(
+            content_sid=twilio_nomedia_content_sid,
+            from_=f"whatsapp:{twilio_sender_number}",
+            to=f"whatsapp:{phone_number}",
+            content_variables=dumps({"1": first_name}),
+            messaging_service_sid=twilio_messaging_service_sid
+        )
+
+        # Loop through the media URLs and send each one
+        for url in media_urls:
+            adjusted_url = url.replace(base_url, "")
+            client.messages.create(
+                content_sid=twilio_media_content_sid,
+                from_=f"whatsapp:{twilio_sender_number}",
+                to=f"whatsapp:{phone_number}",
+                content_variables=dumps({"url_path": adjusted_url}),
+                messaging_service_sid=twilio_messaging_service_sid
+            )
+    
+    except Exception as e:
+        print(f"An error occurred: {e}")
+
+    print()
+
+    return
+
+
 
 if __name__ == '__main__':
     app.run(debug=True)
