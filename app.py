@@ -22,8 +22,12 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 # CORS(app)
-# Enable CORS
-CORS(app, resources={r"/*": {"origins": "*"}})
+if os.environ.get('FLASK_ENV') == 'development':
+    # Allow all origins in development
+    CORS(app, resources={r"/*": {"origins": "*"}})
+else:
+    # Restrict to specific domain in production
+    CORS(app, resources={r"/*": {"origins": "https://orbyanduche.nebed.io"}})
 
 # Initialize the database
 db = SQLAlchemy(app)
