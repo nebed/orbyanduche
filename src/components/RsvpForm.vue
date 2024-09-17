@@ -81,9 +81,6 @@
             <option  type="number" value=0 selected>No additional guests</option>
             <option  type="number" value=1>1</option>
             <option  type="number" value=2>2</option>
-            <option  type="number" value=3>3</option>
-            <option  type="number" value=4>4</option>
-            <option  type="number" value=5>5</option>
           </select>
           <div class="invalid-feedback" v-if="errors.additionalGuests">
             {{ errors.additionalGuests }}
