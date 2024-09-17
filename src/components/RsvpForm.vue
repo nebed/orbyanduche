@@ -141,7 +141,7 @@
   // Function to validate additional guests (must be between 0 and 5)
   function validateAdditionalGuests(additionalGuests) {
     const value = parseInt(additionalGuests, 0);
-    return Number.isInteger(value) && value >= 0 && value <= 5;
+    return Number.isInteger(value) && value >= 0 && value <= 2;
   }
   
   // Function to validate individual fields
@@ -160,7 +160,7 @@
         errors.phoneNumber = validatePhoneNumber(form.phoneNumber) ? '' : 'Phone number must be exactly 11 digits.';
         break;
       case 'additionalGuests':
-        errors.additionalGuests = validateAdditionalGuests(form.additionalGuests) ? '' : 'Please select a valid number of guests (0-5).';
+        errors.additionalGuests = validateAdditionalGuests(form.additionalGuests) ? '' : 'Please select a valid number of guests (0-2).';
         break;
     }
   }

@@ -121,6 +121,8 @@ def create_rsvp():
         additional_guests = int(data.get('additionalGuests', 0))
         if additional_guests < 0:
             raise ValueError("Additional guests cannot be negative.")
+        if additional_guests > 2:
+            raise ValueError("Additional guests cannot be more than 2.")
     except ValueError as e:
         return jsonify({"error": str(e)}), 400
 
