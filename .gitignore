@@ -132,6 +132,7 @@ node_modules/
 *.njsproj
 *.sln
 *.sw?
+dist/
 
 # Test coverage and reports
 coverage/
@@ -142,3 +143,4 @@ coverage.xml
 
 # celery beat schedule file
 celerybeat-schedule
+personal-projects-384213-dd7304a43459.json
