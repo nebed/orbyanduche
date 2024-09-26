@@ -146,7 +146,7 @@ def create_rsvp():
     # Extract and clean fields from request data
     first_name = data.get('firstName', '').strip()
     last_name = data.get('lastName', '').strip()
-    email = data.get('email', '').strip()
+    email = data.get('email', '').strip().lower()
     phone_number = data.get('phoneNumber', '').strip()
 
     # Parse and validate additional_guests
