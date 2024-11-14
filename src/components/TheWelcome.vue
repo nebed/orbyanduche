@@ -97,5 +97,20 @@ import LocationIcon from './icons/IconLocation.vue'
     </div>
   </div>
 </div>
+<div class="bg-black argesta-text text-light pt-5 pb-5 mb-3 bg-gradient text-center">
+  <div>
+    <p class="text-uppercase">Your Presence is the Best Gift</p>
+    <p class="fs-6 fw-light fst-italic">We’re so thankful to have you with us to celebrate our big day! If you’d like to give a gift, we’ve included a few options below. Your thoughtfulness means so much to us. Thank you for sharing in this special moment!</p>
+      <h6 class="display-6 mt-4 mb-3">Cash Gifts</h6>
+      <div class="d-grid gap-2 col-6 mx-auto">
+        <a href="https://paystack.com/pay/orbyanduche" target="_blank" rel="noopener noreferrer" class="btn btn-outline-light">NGN</a>
+        <a href="https://revolut.me/nebed" target="_blank" rel="noopener noreferrer" class="btn btn-outline-light">Other Currencies</a>
+      </div>
+      <h6 class="display-6 mt-4 mb-3">Gift Registry</h6>
+      <div class="d-grid gap-2 col-6 mx-auto">
+        <a href="https://www.amazon.ca/wedding/share/orbyanduche" target="_blank" rel="noopener noreferrer" class="btn btn-outline-light">Amazon</a>
+      </div>
+  </div>
+</div>
 
 </template>
