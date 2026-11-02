@@ -140,10 +140,7 @@
     message: ''
   });
 
-  const username = import.meta.env.VITE_API_USERNAME; 
-  const password = import.meta.env.VITE_API_PASSWORD;
-  const api_host = import.meta.env.VITE_API_HOST;
-  const auth = 'Basic ' + btoa(username + ':' + password);
+  const api_host = import.meta.env.VITE_API_HOST || '';
 
   function onPhoneInput(formattedNumber, input) {
     phone.inputValue = input;
@@ -209,8 +206,7 @@
                 const response = await fetch(api_host + '/api/rsvp', {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': auth
+                  'Content-Type': 'application/json'
                 },
                 body: JSON.stringify(form)
                 });

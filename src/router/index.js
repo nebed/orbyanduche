@@ -31,33 +31,36 @@ const router = createRouter({
       path: '/admin',
       name: 'admin',
       component: () => import('../views/AdminView.vue'),
-      beforeEnter: (to, from, next) => {
-        if (isAuthenticated()) {
-          next();
-        } else {
-          const username = prompt("Enter username:");
-          const password = prompt("Enter password:");
-          if (checkCredentials(username, password)) {
-            sessionStorage.setItem('authenticated', 'true');
-            next();
-          } else {
-            alert('Authentication failed');
-            next('/');
-          }
+      beforeEnter: async () => {
+        let password = sessionStorage.getItem('adminPassword');
+        if (password && await verifyAdminPassword(password)) return true;
+
+        sessionStorage.removeItem('adminPassword');
+        password = prompt('Enter the admin password:');
+        if (!password) return '/';
+
+        if (await verifyAdminPassword(password)) {
+          sessionStorage.setItem('adminPassword', password);
+          return true;
         }
+
+        alert('Authentication failed');
+        return '/';
       }
     }
   ]
 })
 
-function isAuthenticated() {
-  return sessionStorage.getItem('authenticated') === 'true';
-}
-
-function checkCredentials(username, password) {
-  const validUsername = import.meta.env.VITE_API_USERNAME;
-  const validPassword = import.meta.env.VITE_API_PASSWORD;
-  return username === validUsername && password === validPassword;
+async function verifyAdminPassword(password) {
+  const apiHost = import.meta.env.VITE_API_HOST || '';
+  try {
+    const response = await fetch(`${apiHost}/api/auth/check`, {
+      headers: { Authorization: `Basic ${btoa(`admin:${password}`)}` }
+    });
+    return response.ok;
+  } catch {
+    return false;
+  }
 }
 
 export default router
