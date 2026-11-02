@@ -3,7 +3,7 @@ from flask import Flask, request, jsonify
 from flask_cors import CORS
 from flask_sqlalchemy import SQLAlchemy
 from flask_httpauth import HTTPBasicAuth
-from werkzeug.security import generate_password_hash, check_password_hash
+from werkzeug.security import check_password_hash
 from dotenv import load_dotenv
 from google.cloud import storage
 from datetime import timedelta
@@ -33,15 +33,6 @@ else:
 db = SQLAlchemy(app)
 auth = HTTPBasicAuth()
 
-# Load password from environment variable
-admin_password = os.getenv('VITE_API_PASSWORD')
-if not admin_password:
-    raise ValueError("No VITE_API_PASSWORD set for Flask application")
-
-username = os.getenv('VITE_API_USERNAME')
-if not username:
-    raise ValueError("No VITE_API_USERNAME set for Flask application")
-
 mailgun_api_key = os.getenv('MAILGUN_API_KEY')
 if not mailgun_api_key:
     raise ValueError("No MAILGUN_API_KEY set for Flask application")
@@ -62,20 +53,8 @@ twilio_messaging_service_sid = os.getenv('TWILIO_MESSAGING_SERVICE_SID')
 
 gcs_bucket_name = "orbyanducheprivate"
 
-os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "personal-projects-384213-dd7304a43459.json"
-
-# In-memory user storage for authentication
-users = {
-    username: generate_password_hash(admin_password)
-}
-
 calendar_link = "https://calendar.app.google/GBiUC4xTUHmY8pqt5"
 bucket_name = 'orbyanducheprivate'
-
-@auth.verify_password
-def verify_password(username, password):
-    if username in users and check_password_hash(users.get(username), password):
-        return username
 
 # Define the RSVP model
 class RSVP(db.Model):
@@ -88,9 +67,30 @@ class RSVP(db.Model):
     additional_guests = db.Column(db.Integer, nullable=False)
     approved = db.Column(db.Boolean, default=False, nullable=False)
 
+class AdminCredential(db.Model):
+    __tablename__ = 'admin_credentials'
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(80), unique=True, nullable=False)
+    password_hash = db.Column(db.String(255), nullable=False)
+
+# Additive table creation preserves the existing guests table and data.
+with app.app_context():
+    db.create_all()
+
+@auth.verify_password
+def verify_password(username, password):
+    credential = AdminCredential.query.filter_by(username=username).first()
+    if credential and check_password_hash(credential.password_hash, password):
+        return username
+
 @app.route('/api/ping', methods=['GET'])
 def ping_pong():
     return jsonify('pong!')
+
+@app.route('/api/auth/check', methods=['GET'])
+@auth.login_required
+def check_admin_authentication():
+    return jsonify({'authenticated': True})
 
 @app.route('/api/rsvps', methods=['GET'])
 @auth.login_required
@@ -137,7 +137,6 @@ def approve_rsvp(id):
     return jsonify({"message": "RSVP approved successfully"})
 
 @app.route('/api/rsvp', methods=['POST'])
-@auth.login_required
 def create_rsvp():
     data = request.json
     if not data:

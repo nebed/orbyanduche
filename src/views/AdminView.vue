@@ -63,7 +63,15 @@ import { ref, onMounted, computed } from 'vue';
 
 // State to hold the guest data
 const guests = ref([]);
-const api_host = import.meta.env.VITE_API_HOST;
+const api_host = import.meta.env.VITE_API_HOST || '';
+
+function adminHeaders(extra = {}) {
+  const password = sessionStorage.getItem('adminPassword') || '';
+  return {
+    ...extra,
+    Authorization: `Basic ${btoa(`admin:${password}`)}`
+  };
+}
 
 const approvedGuestsCount = computed(() =>
   guests.value.reduce((count, guest) => (guest.approved ? count + 1 + guest.additionalGuests : count), 0)
@@ -77,9 +85,7 @@ async function fetchGuests() {
   try {
     const response = await fetch(`${api_host}/api/rsvps`, {
       method: 'GET',
-      headers: {
-        'Authorization': 'Basic ' + btoa(import.meta.env.VITE_API_USERNAME + ':' + import.meta.env.VITE_API_PASSWORD)
-      }
+      headers: adminHeaders()
     });
     if (response.ok) {
       guests.value = await response.json();
@@ -96,10 +102,7 @@ async function approveGuest(id) {
   try {
     const response = await fetch(`${api_host}/api/rsvp/${id}/approve`, {
       method: 'PATCH',
-      headers: {
-        'Authorization': 'Basic ' + btoa(import.meta.env.VITE_API_USERNAME + ':' + import.meta.env.VITE_API_PASSWORD),
-        'Content-Type': 'application/json'
-      }
+      headers: adminHeaders({ 'Content-Type': 'application/json' })
     });
     if (response.ok) {
       // Refresh the guest list after approving
@@ -117,9 +120,7 @@ async function deleteGuest(id) {
   try {
     const response = await fetch(`${api_host}/api/rsvp/${id}`, {
       method: 'DELETE',
-      headers: {
-        'Authorization': 'Basic ' + btoa(import.meta.env.VITE_API_USERNAME + ':' + import.meta.env.VITE_API_PASSWORD)
-      }
+      headers: adminHeaders()
     });
     if (response.ok) {
       // Refresh the guest list after deleting
